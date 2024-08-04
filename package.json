@@ -1,0 +1,39 @@
+{
+  "name": "live-football-scoreboard",
+  "version": "1.0.0",
+  "description": "A simple library for tracking and managing ongoing matches and scores of the FIFA World Cup.",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "test:cov": "jest --coverage"
+  },
+  "keywords": [
+    "football",
+    "world-cup",
+    "scoreboard",
+    "sports",
+    "data",
+    "live-scores",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samhecquet/live-football-scoreboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/samhecquet/live-football-scoreboard/issues"
+  },
+  "homepage": "https://github.com/samhecquet/live-football-scoreboard#readme",
+  "author": "Samuel Hecquet",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.4",
+    "typescript": "^5.5.4"
+  }
+}
