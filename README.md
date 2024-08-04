@@ -6,6 +6,7 @@ A simple TypeScript library for tracking and managing the ongoing matches and sc
 
 - [Introduction](#introduction)
 - [Features](#features)
+- [Assumptions and Notes](#assumptions-and-notes)
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Reference](#api-reference)
@@ -26,6 +27,20 @@ This library provides a straightforward API to start new matches, update scores,
 - Update the scores of an existing match
 - Finish a match in progress
 - Retrieve a summary of all the ongoing matches, ordered by total score and start time
+
+## Assumptions and Notes
+
+1. I decided to store the ongoing matches in an object (`{ [key: string]: Match }`) instead of an array.
+
+   - This decision was made to provide faster lookup and retrieval of matches by ID, which is a common operation in the library's API.
+   - Using an object allows for constant-time (O(1)) lookups by ID, whereas an array would require linear-time (O(n)) searches to find a match by teams.
+   - The trade-off is a slightly higher memory usage, as the object stores the team IDs as keys. However, this was considered an acceptable trade-off for the performance benefit.
+
+2. I assumed that team names are unique, and it will throw an error if a team is already participating in a match.
+   To enforce the uniqueness of team names, the library uses a dedicated state `teamsInGame` in a `Set` data structure, which provides constant-time lookups.
+   This choice was made to prioritize the efficiency of the `startMatch` method over the slightly higher space complexity.
+
+3. I assumed that the team names are not a finite list of countries, and the only validation required was ensuring they are not empty strings. Otherwise, another approach would have been to create a `Country` type with the countries listed in the task description.
 
 ## Installation
 

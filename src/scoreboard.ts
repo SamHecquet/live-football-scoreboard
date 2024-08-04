@@ -6,15 +6,40 @@ export default class Scoreboard {
    */
   private matches: { [key: string]: Match } = {};
 
+  /**
+   * Set that stores the names of all the teams that are currently participating in a match.
+   */
+  private teamsInGame: Set<string> = new Set();
+
   startMatch(homeTeam: string, awayTeam: string): string {
+    if (homeTeam === "" || awayTeam === "") {
+      throw new Error("Home team and away team must be valid strings");
+    }
+
+    // Check if either team is already participating in a match
+    if (this.teamsInGame.has(homeTeam)) {
+      throw new Error("homeTeam is already in a match");
+    }
+    if (this.teamsInGame.has(awayTeam)) {
+      throw new Error("awayTeam is already in a match");
+    }
+
     const match = new Match(homeTeam, awayTeam);
     this.matches[match.id] = match;
+
+    // add the teams to the set of teams in a match to prevent them from starting another match
+    this.teamsInGame.add(homeTeam);
+    this.teamsInGame.add(awayTeam);
 
     return match.id;
   }
 
 
   updateScore(matchId: string, home: number, away: number): boolean {
+    if (!Number.isInteger(home) || !Number.isInteger(away) || home < 0 || away < 0) {
+      throw new Error("Scores must be integers greater than or equal to 0");
+    }
+
     this.getMatchForUpdate(matchId).updateScore(home, away);
     return true;
   }
@@ -22,6 +47,10 @@ export default class Scoreboard {
   finishMatch(matchId: string): Date | undefined {
     const match = this.getMatchForUpdate(matchId);
     const endTime = match.end();
+
+    // remove the teams from the set of teams currently in a match to allow them to start another match
+    this.teamsInGame.delete(match.awayTeam);
+    this.teamsInGame.delete(match.homeTeam);
 
     return endTime;
   }
